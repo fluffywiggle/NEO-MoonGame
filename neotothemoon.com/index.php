@@ -59,78 +59,12 @@
 </div>
 
 <?php
-  include 'pages/db.php'; 
+  include 'pages/db.php';
+	$numAmount = 10;
 
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-// Check connection
-if ($conn->connect_error) {
-		die("Connection failed: " . $conn->connect_error);
-}
+	include 'pages/leaderboardOutput.php';
 
-$sql = "SELECT bestScore, GROUP_CONCAT(address)as address FROM Accounts GROUP by bestScore ORDER BY bestScore DESC";
-$result = $conn->query($sql);
-			$i = 1;
-if ($result->num_rows > 0) {
-
-echo	'<table style="max-width:500px; ">
-		<tr>
-				<th width="100">Rank</td>
-		<th width="100">User</td>
-				<th width="100">Score</td>
-					<th width="100">Reward</td>
-
-		</tr>';
-		// output data of each row
-		while($i <= 10) {
-
-			$row = $result->fetch_assoc();
-
-		//  $address = $row["address"];
-			$address = explode(',', $row['address']);
-	//    $user = substr($address, 0, 10);
-					$score = $row["bestScore"];
-					$reward = array("1 GAS","0.5 GAS","0.3 GAS","0.1 GAS","0.1 GAS");
-					$arraynum = $i - 1;
-
-				echo '<tr><td><b>'.$i.'</b></td>
-															 <td>';
-
-
-						for ($d =0; $d < count($address); $d++ ) {
-							echo $address[$d];
-							if (count($address) > 1){
-								echo "<br>";
-							}
-						}
-						echo '</td>
-																<td>'.number_format($score).'</td>
-									<td>'.$reward[$arraynum].'</td></tr>'
-
-
-
-
-									;
-$i++;
-
-
-		}
- echo '</table>'; }
-
-else {
-		echo "0 results";
-}
-$conn->close();
-
-
-
-//$leveldataqry = sql_query("SELECT * FROM leveldata");
-
-
-
-
-
-					?>
+	?>
 
 <span class="smalltext"> *If there are multiple users with same score, they will share that tier's reward</span>
 		 <div style="clear:both"></div></div>
